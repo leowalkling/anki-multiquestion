@@ -1,0 +1,32 @@
+{
+  "name": "randomquestion",
+  "version": "0.0.0",
+  "description": "",
+  "directories": {
+    "lib": "src",
+    "bin": "bin",
+    "test": "test"
+  },
+  "devDependencies": {
+    "bower": "*",
+    "bower-requirejs": "*",
+    "mocha": "*",
+	"karma": "*",
+	"sinon": "*",
+	"sinon-chai": "*",
+	"chai": "*",
+	"karma-requirejs": "*",
+	"karma-mocha": "*",
+	"karma-sinon": "*",
+	"karma-chai": "*",
+	"karma-sinon-chai": "*",
+	"grunt": "*",
+	"grunt-karma": "*",
+	"grunt-contrib-jshint": "*",
+	"grunt-contrib-requirejs": "*",
+	"grunt-bower-requirejs": "*",
+	"grunt-requirejs": "*"
+  },
+  "author": "Leopold Walkling",
+  "license": "MIT"
+}

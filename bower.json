@@ -1,0 +1,30 @@
+{
+  "name": "randomquestion",
+  "version": "0.0.0",
+  "authors": [
+    "Leopold Walkling"
+  ],
+  "description": "A collection of scripts for eliminating parts of the DOM, keeping a randomly selected subset.",
+  "main": "index.js",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "cookies-js": "*",
+    "underscore": "*",
+    "requirejs": "*",
+    "domready": "*",
+    "jsface": "*"
+  },
+  "devDependencies": {
+  }
+}
