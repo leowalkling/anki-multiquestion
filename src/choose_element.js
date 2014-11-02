@@ -9,6 +9,36 @@ define(['cookies-js', 'underscore', 'jsface'], function (Cookies, _, jsface) {
             typeof o.addElement === 'function'
     }
 
+	/**
+	 * Determine whether a node's text content is entirely whitespace.
+	 *
+	 * @param nod  A node implementing the |CharacterData| interface (i.e.,
+	 *             a |Text|, |Comment|, or |CDATASection| node
+	 * @return     True if all of the text content of |nod| is whitespace,
+	 *             otherwise false.
+	 */
+	function is_all_ws( nod ) {
+		"use strict";
+		// Use ECMA-262 Edition 3 String and RegExp features
+		return !(/[^\t\n\r ]/.test(nod.textContent));
+	}
+
+
+	/**
+	 * Determine if a node should be ignored by the iterator functions.
+	 *
+	 * @param nod  An object implementing the DOM1 |Node| interface.
+	 * @return     true if the node is:
+	 *                1) A |Text| node that is all whitespace
+	 *                2) A |Comment| node
+	 *             and otherwise false.
+	 */
+	function is_ignorable( nod ) {
+		"use strict";
+		return ( nod.nodeType == 8) || // A comment node
+			( (nod.nodeType == 3) && is_all_ws(nod) ); // a text node, all ws
+	}
+
 	var ChoiceUniverse = Class({
 		constructor: function (name) {
 			"use strict";
@@ -274,23 +304,25 @@ define(['cookies-js', 'underscore', 'jsface'], function (Cookies, _, jsface) {
 			e = null;
 		});
 		multiverse.eachSelected(choice, function (e, info) {
-			if (info.nocollapse) { return; }
+			if (info.nocollapse) {
+				return;
+			}
 
-			var new_node = document.createElement('div');
-
-			var containers = [e.parentNode];
-			var highest_container = e.parentNode;
-			while (highest_container.parentNode && highest_container.parentNode.childNodes.length === 1) {
-				highest_container = highest_container.parentNode;
-				containers.push(highest_container);
+			var containers = [];
+			for (var highest_container = e.parentNode; highest_container && highest_container.tagName.toLocaleUpperCase() !== "BODY" && _.chain(highest_container.childNodes).reject(function (nod) {
+				return is_ignorable(nod);
+			}).value() === _.chain(containers).last().value(); highest_container = highest_container.parentNode) {
+				containers.push()
 			}
 			// Copy attributes and styles top-down
-			_.each(containers.reverse(), function (c) {
+			_.chain(containers).reverse().each(function (c) {
 				var attributes = c.attributes;
 				_.each(attributes, function (attr) {
 					new_node.setAttribute(attr.name, attr.value);
 				});
-			});
+			}).value();
+
+			var new_node = document.createElement('DIV');
 
 			// Move all child nodes
 			_.each(e.childNodes, function (child) {
@@ -298,8 +330,10 @@ define(['cookies-js', 'underscore', 'jsface'], function (Cookies, _, jsface) {
 			})
 
 			// Replace the highest container with the new node
-			highest_container.parentNode.replaceChild(new_node, highest_container);
-
+			if (containers.length > 0) {
+				var upmost = _.last(containers);
+				upmost.parentNode.replaceChild(new_node, upmost);
+			}
 		});
 	}
 

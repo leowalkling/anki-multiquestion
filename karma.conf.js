@@ -4,14 +4,13 @@
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'requirejs', 'chai', 'sinon'],
+    frameworks: ['mocha', 'requirejs', 'sinon-chai'],
     files: [
 		{pattern: 'src/**/*.js', included: false},
 		{pattern: 'test/**/*-test.js', included: false},
 		{pattern: 'lib/**/*.js', included: false},
 		'test-main.js',
-		{pattern: 'bower-paths.js', included: false},
-		'lib/sinon/**/*.js'
+		{pattern: 'bower-paths.js', included: false}
     ],
     exclude: [
     ],
