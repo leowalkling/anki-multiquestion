@@ -23,7 +23,8 @@
     "underscore": "*",
     "requirejs": "*",
     "domready": "*",
-    "jsface": "*"
+    "jsface": "*",
+	"mustache": "*"
   },
   "devDependencies": {
   }
